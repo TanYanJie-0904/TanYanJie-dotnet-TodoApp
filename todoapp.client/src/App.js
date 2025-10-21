@@ -9,7 +9,7 @@ function App() {
   const [newDescription, setNewDescription] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
-  // 加载todos
+  // load todos on mount
   useEffect(() => {
     loadTodos();
   }, []);
@@ -26,7 +26,7 @@ function App() {
     }
   };
 
-  // 切换任务完成状态
+  // change todo completion status
   const toggleTodo = async (todo) => {
     try {
       const updated = { ...todo, isCompleted: !todo.isCompleted };
@@ -39,7 +39,7 @@ function App() {
     }
   };
 
-  // 打开编辑模态框
+  // open modal for editing
   const openEditModal = (todo) => {
     setEditingTodo(todo);
     setNewTitle(todo.title);
@@ -47,7 +47,7 @@ function App() {
     setIsModalOpen(true);
   };
 
-  // 关闭模态框并重置
+  // close modal and reset state
   const closeModal = () => {
     setIsModalOpen(false);
     setEditingTodo(null);
@@ -55,7 +55,7 @@ function App() {
     setNewDescription("");
   };
 
-  // 添加或更新任务
+  // add or update todo
   const handleSaveTodo = async () => {
     if (!newTitle.trim()) return;
 
@@ -67,13 +67,13 @@ function App() {
 
     try {
       if (editingTodo) {
-        // 更新现有任务
+        // update existing task
         await updateTodo(editingTodo.id, { ...todoData, id: editingTodo.id });
         setTodos(todos.map((t) => 
           t.id === editingTodo.id ? { ...t, ...todoData } : t
         ));
       } else {
-        // 添加新任务
+        // add new task
         const created = await addTodo(todoData);
         setTodos([...todos, created]);
       }
@@ -83,7 +83,7 @@ function App() {
     }
   };
 
-  // 删除任务
+  // delete todo
   const handleDeleteTodo = async (id) => {
     if (!window.confirm("Are you sure you want to delete this task?")) {
       return;
@@ -97,7 +97,7 @@ function App() {
     }
   };
 
-  // 计算统计
+  // calculate total tasks
   const totalTasks = todos.length;
 
   return (
